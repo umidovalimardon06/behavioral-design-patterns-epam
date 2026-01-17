@@ -1,6 +1,4 @@
-import interview.HrRound;
-import interview.ManagerRound;
-import interview.TechnicalRound;
+import interview.InterviewPanel;
 import interview.domain.Candidate;
 
 public class Client {
@@ -10,15 +8,8 @@ public class Client {
                 .score(85)
                 .build();
 
-        var technicalRound = new TechnicalRound();
-        var managerRound = new ManagerRound();
-        var hrRound = new HrRound();
-
-        var tech = technicalRound.hire(candidate);
-        var man = managerRound.hire(candidate);
-        var hr = hrRound.hire(candidate);
-
-        if (hr) System.out.println("Pass");
-        else System.out.println("Failed");
+        InterviewPanel panel = new InterviewPanel();
+        boolean hire = panel.hire(candidate);
+        System.out.println(hire);
     }
 }

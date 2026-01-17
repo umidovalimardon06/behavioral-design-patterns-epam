@@ -1,76 +1,72 @@
-# Hiring Workflow Demonstration (Without Chain of Responsibility)
+# Hiring Jarayoni – Dizayn Taqqoslash
 
-Bu loyiha **Chain of Responsibility design pattern ishlatilmagan holatda** intervyu jarayonidagi muammolarni ko‘rsatadi.
-
-Quyidagi kod orqali nomzod ketma-ket uchta bosqichdan o‘tkaziladi:
-
-* Technical Round
-* Manager Round
-* HR Round
-
-## Client kodi
-
-```java
-import interview.HrRound;
-import interview.ManagerRound;
-import interview.TechnicalRound;
-import interview.domain.Candidate;
-
-public class Client {
-    public static void main(String[] args) {
-        Candidate candidate = Candidate.builder()
-                .name("Thomas")
-                .score(85)
-                .build();
-
-        var technicalRound = new TechnicalRound();
-        var managerRound = new ManagerRound();
-        var hrRound = new HrRound();
-
-        var tech = technicalRound.hire(candidate);
-        var man = managerRound.hire(candidate);
-        var hr = hrRound.hire(candidate);
-
-        if (hr) System.out.println("Pass");
-        else System.out.println("Failed");
-    }
-}
-```
+Ushbu hujjat **Chain of Responsibility (CoR)** design pattern ishlatilmagan va ishlatilgan holatdagi hiring jarayonini taqqoslaydi.
 
 ---
 
-## Asosiy Dizayn Muammolari
+## ❌ Pattern ishlatilmagan holat
 
-### 1. Tight Coupling (Qattiq bog‘lanish)
+Dastlabki versiyada **Client** har bir bosqichni o‘zi yaratadi va chaqiradi:
 
-`Client` klassi har bir intervyu bosqichiga to‘g‘ridan-to‘g‘ri bog‘langan.
+* TechnicalRound
+* ManagerRound
+* HrRound
 
-Bu quyidagi muammolarga olib keladi:
+Workflow qo‘lda boshqariladi:
 
-* Har bir yangi bosqich qo‘shilganda `Client` kodini o‘zgartirish kerak bo‘ladi.
-* Bosqichlarni noto‘g‘ri chaqirish ehtimoli mavjud.
-* Kod kengaytirilishi qiyin.
+```
+technical.hire(candidate)
+manager.hire(candidate)
+hr.hire(candidate)
+```
 
-### 2. Manual Workflow Orchestration (Jarayonni qo‘lda boshqarish)
+### Muammolar
 
-Intervyu jarayoni **Client tomonidan qo‘lda boshqarilmoqda**.
+**Tight Coupling (qattiq bog‘lanish)**
+Client har bir concrete round’ga bog‘langan. Jarayon o‘zgarsa — Client ham o‘zgarishi kerak.
 
-Natijada:
+**Manual Orchestration (qo‘lda boshqarish)**
+Client jarayon tartibini boshqaradi. Bu esa xatolarga juda ochiq.
 
-* Bosqichlar ketma-ketligi tizim tomonidan kafolatlanmaydi.
-* Bosqichlar noto‘g‘ri tartibda yoki umuman chaqirilmasligi mumkin.
-* Dastur ishga tushadi, lekin jarayon noto‘g‘ri ishlashi mumkin.
+---
+
+## ✅ Pattern ishlatilgan holat (Solution Demonstration)
+
+Yechimda Client faqat bitta entry point bilan ishlaydi:
+
+```
+InterviewPanel panel = new InterviewPanel();
+panel.hire(candidate);
+```
+
+`InterviewPanel` ichida chain quriladi:
+
+```
+Technical → Manager → HR
+```
+
+Har bir round:
+
+1. Candidate’ni tekshiradi
+2. Fail bo‘lsa — jarayonni to‘xtatadi
+3. Pass bo‘lsa — keyingi round’ga uzatadi
+
+Shu bilan:
+
+* Bosqichlar ketma-ketligi kafolatlanadi
+* Client faqat panel’ni biladi
+* Workflow moslashuvchan va kengaytiriladigan bo‘ladi
 
 ---
 
 ## Xulosa
 
-Bu yondashuv:
+**Chain of Responsibility pattern** yordamida hiring jarayoni:
 
-* Moslashuvchan emas
-* Xatolarga juda ochiq
-* Arxitektura jihatidan noto‘g‘ri
+* Barqaror
+* Kengaytiriladigan
+* Xatolarga chidamli
 
-Shu sababli **Chain of Responsibility pattern** bu muammolarni hal qilish uchun ishlatiladi.
+Bu esa real loyihalarda professional arxitektura qurish imkonini beradi.
 
-![Hiring Jarayoni](images/hiring.png)
+![Hiring Jarayoni](images/panel-hiring.png)
