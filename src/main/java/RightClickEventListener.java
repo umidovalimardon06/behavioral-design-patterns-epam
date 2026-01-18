@@ -1,6 +1,15 @@
 public class RightClickEventListener implements IEventListener{
     @Override
     public void OnEvent() {
-        System.out.println("Right click: Hands raised");
+        ICommand command;
+
+        // if
+        command = new RaiseOneHandCommand();
+
+        // else
+        command = new RaiseHandsCommand();
+
+        command.execute();
+
     }
 }

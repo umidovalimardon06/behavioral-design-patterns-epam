@@ -1,56 +1,101 @@
-# Command Pattern ishlatilmagan holatdagi muammolar
+# Command Design Pattern  – Java
 
-Bu loyiha **Command Design Pattern qo‘llanmagan** arxitekturani ko‘rsatadi.
-Client (UI) qaysi harakat bajarilishini o‘zi hal qiladi.
+Bu README siz yozgan kod asosida **Command Pattern hujjatlashtiradi.
+
+Maqsad: harakatni (action) alohida obyektga ajratib, `execute()` orqali ishga tushirish.
 
 ---
 
-## 1. Behavior o‘zgarsa → Client kodini ham o‘zgartirish kerak
+## Siz yozgan kod
 
-Hozir Client command’ni `if/else` orqali tanlaydi:
+### Command interfeysi
 
 ```java
-if (click.equals("left")) {
-    clickListener = new LeftClickListener();
-} else {
-    clickListener = new RightClickEventListener();
+public interface ICommand {
+    void execute();
 }
-clickListener.OnEvent();
 ```
 
-Agar command ichidagi logika o‘zgarsa yoki yangi command qo‘shilsa,
-**Client’ni qayta yozishga majbur bo‘lasiz.**
+### Concrete Command’lar
 
-Bu esa UI va harakatlar o‘rtasida **tight coupling** borligini bildiradi.
+```java
+public class RaiseOneHandCommand implements ICommand {
+    @Override
+    public void execute() {
+        System.out.println("One hands");
+    }
+}
+```
+
+```java
+public class RaiseHandsCommand implements ICommand {
+    @Override
+    public void execute() {
+        System.out.println("All hands on");
+    }
+}
+```
+
+### Listener’lar (Invoker sifatida)
+
+```java
+public class LeftClickListener implements IEventListener {
+    @Override
+    public void OnEvent() {
+        var command = new RaiseOneHandCommand();
+        command.execute();
+    }
+}
+```
+
+```java
+public class RightClickEventListener implements IEventListener {
+    @Override
+    public void OnEvent() {
+        ICommand command;
+
+        // if
+        command = new RaiseOneHandCommand();
+
+        // else
+        command = new RaiseHandsCommand();
+
+        command.execute();
+    }
+}
+```
 
 ---
 
-## 2. Yangi Client yozilganda → shu mapping logikasi takrorlanadi
+## Bu kod Command Pattern’ni qayerda ko‘rsatadi?
 
-Agar boshqa Client yaratilsa (GUI, REST API, test runner),
-u ham yuqoridagi `if/else` tanlash logikasini yana yozadi.
+1. **Harakat (action) alohida obyektga ajratilgan**
 
-Natija:
+    * `RaiseOneHandCommand` va `RaiseHandsCommand` — bu “command” obyektlar.
+    * Har birida bitta umumiy kirish nuqtasi bor: `execute()`.
 
-* Kod dublikat bo‘ladi
-* Maintain qilish qiyinlashadi
-* Har bir Client command’larni bilishga majbur
+2. **Invoker (listener) `execute()` ni chaqiradi**
+
+    * `LeftClickListener` ichida ishni to‘g‘ridan-to‘g‘ri qilish o‘rniga command yaratiladi va `execute()` chaqiriladi.
+
+---
+
+## Hali ham qolayotgan muammo (Command Pattern’ning to‘liq foydasi chiqmayotgan joy)
+
+* `RightClickEventListener` ichida **command tanlash** (`if/else`) logikasi bor (siz komment bilan ko‘rsatgansiz).
+* Command’ni tanlash/mapping logikasi listener ichida qolsa:
+
+    * yangi command qo‘shilganda listener’ni o‘zgartirishga to‘g‘ri keladi
+    * Open/Closed prinsip to‘liq bajarilmaydi
 
 ---
 
 ## Xulosa
 
-Bu muammolar shuni ko‘rsatadiki:
+Sizning kodingiz Command Pattern’ning asosiy g‘oyasini ko‘rsatadi:
 
-* Harakatlar alohida obyektlar bo‘lsa ham, ular markaziy boshqaruvsiz
-* UI (Client) business logic’ga qattiq bog‘langan
+* **action = obyekt**
+* **execute() orqali ishga tushirish**
 
-Shu sababli **Command Pattern qo‘llanadi**:
-
-* Client faqat `execute()` chaqiradi
-* Command ichida business logic yashirinadi
-* Yangi command qo‘shish Client’ni o‘zgartirmaydi
-
-
-![Hiring Jarayoni](images/code.png)
-
+Keyingi bosqich (ixtiyoriy): command tanlash logikasini listener ichidan chiqarib, bitta joyda (wiring/registry) qilish.
+(README’da qo‘shimcha kod qo‘shilmadi — faqat sizning kodingiz va izoh.)
