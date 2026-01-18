@@ -11,3 +11,7 @@ This repository contains multiple branches:
 ---
 
 3. [Command-problem branch](https://github.com/umidovalimardon06/behavioral-design-patterns-epam/tree/Command-problem)
+
+---
+
+4. [Command-solution branch](https://github.com/umidovalimardon06/behavioral-design-patterns-epam/pull/new/Command-solution)
