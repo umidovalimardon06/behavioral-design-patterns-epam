@@ -1,7 +1,6 @@
 public class Main {
     public static void main(String[] args) {
-
-        ///  this repo consists of multiple branches
-
+        Consumer consumer = new Consumer("Hikar","Jane 77");
+        consumer.buy("apple");
     }
 }
