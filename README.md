@@ -19,3 +19,11 @@ This repository contains multiple branches:
 ---
 
 5. [Iterator branch](https://github.com/umidovalimardon06/behavioral-design-patterns-epam/tree/Iterator)
+
+---
+
+6. [Iterator-example](https://github.com/umidovalimardon06/behavioral-design-patterns-epam/tree/Iterator-example)
+
+---
+
+7. [Mediator-problem](https://github.com/umidovalimardon06/behavioral-design-patterns-epam/tree/Mediator-problem)
