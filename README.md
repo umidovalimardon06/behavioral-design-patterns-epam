@@ -15,3 +15,7 @@ This repository contains multiple branches:
 ---
 
 4. [Command-solution branch](https://github.com/umidovalimardon06/behavioral-design-patterns-epam/pull/new/Command-solution)
+
+---
+
+5. [Iterator branch](https://github.com/umidovalimardon06/behavioral-design-patterns-epam/tree/Iterator)
