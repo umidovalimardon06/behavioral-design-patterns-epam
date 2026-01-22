@@ -31,3 +31,7 @@ This repository contains multiple branches:
 ---
 
 8. [Momento-implementation](https://github.com/umidovalimardon06/behavioral-design-patterns-epam/pull/new/Momento-implementation)
+
+---
+
+9. [Observer-implementation](https://github.com/umidovalimardon06/behavioral-design-patterns-epam/pull/new/Observer-implementation)
